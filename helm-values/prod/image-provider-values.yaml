@@ -1,0 +1,76 @@
+service:
+  name: image-provider
+  environment: prod
+  port: 8081
+  targetPort: 8081
+
+image:
+  repository: ""
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+
+replicaCount: 3
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false
+
+resources:
+  requests:
+    cpu: 150m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 60
+  targetMemoryUtilizationPercentage: 70
+
+rollout:
+  strategy: canary
+  trafficRouting:
+    istio:
+      enabled: true
+  steps:
+    - setWeight: 10
+    - pause:
+        duration: 10m
+    - setWeight: 25
+    - pause:
+        duration: 15m
+    - setWeight: 50
+    - pause:
+        duration: 15m
+    - setWeight: 100
+
+observability:
+  metrics:
+    enabled: true
+  tracing:
+    enabled: true
+
+istio:
+  enabled: true
+  trafficRouting:
+    enabled: true
+  mtls:
+    enabled: true
+  authorizationPolicy:
+    enabled: true
+
+env:
+  - name: IMAGE_PROVIDER_PORT
+    value: "8081"
+
+envFrom:
+  - secretRef:
+      name: astronomy-shop-runtime
+      optional: false

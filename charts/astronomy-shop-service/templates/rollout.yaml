@@ -1,0 +1,104 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ include "astronomy-shop-service.fullname" . }}
+  labels:
+    {{- include "astronomy-shop-service.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    canary:
+      {{- if not .Values.rollout.trafficRouting.istio.enabled }}
+      stableService: {{ printf "%s-stable" (include "astronomy-shop-service.fullname" .) }}
+      canaryService: {{ printf "%s-canary" (include "astronomy-shop-service.fullname" .) }}
+      {{- end }}
+      {{- if .Values.rollout.trafficRouting.alb.enabled }}
+      trafficRouting:
+        alb:
+          ingress: {{ .Values.rollout.trafficRouting.alb.ingressName | quote }}
+          servicePort: {{ .Values.rollout.trafficRouting.alb.servicePort }}
+      {{- else if .Values.rollout.trafficRouting.istio.enabled }}
+      trafficRouting:
+        istio:
+          virtualServices:
+            - name: {{ include "astronomy-shop-service.istio.virtualServiceName" . | quote }}
+              routes:
+                {{- toYaml .Values.rollout.trafficRouting.istio.virtualService.routes | nindent 16 }}
+          destinationRule:
+            name: {{ include "astronomy-shop-service.istio.destinationRuleName" . | quote }}
+            canarySubsetName: canary
+            stableSubsetName: stable
+      {{- end }}
+      steps:
+        {{- toYaml .Values.rollout.steps | nindent 8 }}
+      {{- if .Values.rollout.analysis.enabled }}
+      analysis:
+        startingStep: 1
+        templates:
+          - templateName: {{ include "astronomy-shop-service.fullname" . }}-availability
+        args:
+          - name: namespace
+            value: {{ .Release.Namespace | quote }}
+          - name: service
+            value: {{ include "astronomy-shop-service.fullname" . | quote }}
+      {{- end }}
+  selector:
+    matchLabels:
+      {{- include "astronomy-shop-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "astronomy-shop-service.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ default (include "astronomy-shop-service.name" .) .Values.serviceAccount.name | quote }}
+      containers:
+        - name: {{ include "astronomy-shop-service.name" . }}
+          image: {{ include "astronomy-shop-service.image" . | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+          {{- with .Values.envFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          env:
+            - name: ENVIRONMENT
+              value: {{ .Values.service.environment | quote }}
+            {{- if .Values.observability.tracing.enabled }}
+            - name: OTEL_SERVICE_NAME
+              value: {{ include "astronomy-shop-service.name" . | quote }}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: {{ .Values.observability.tracing.endpoint | quote }}
+            - name: OTEL_EXPORTER_OTLP_PROTOCOL
+              value: {{ .Values.observability.tracing.protocol | quote }}
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: {{ printf "service.namespace=astronomy-shop,deployment.environment=%s" .Values.service.environment | quote }}
+            {{- end }}
+            {{- with .Values.env }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

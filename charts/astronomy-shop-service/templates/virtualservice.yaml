@@ -1,0 +1,22 @@
+{{- if and .Values.istio.enabled .Values.istio.trafficRouting.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "astronomy-shop-service.istio.virtualServiceName" . }}
+  labels:
+    {{- include "astronomy-shop-service.labels" . | nindent 4 }}
+spec:
+  hosts:
+    - {{ include "astronomy-shop-service.fullname" . }}
+  http:
+    - name: primary
+      route:
+        - destination:
+            host: {{ include "astronomy-shop-service.fullname" . }}
+            subset: stable
+          weight: 100
+        - destination:
+            host: {{ include "astronomy-shop-service.fullname" . }}
+            subset: canary
+          weight: 0
+{{- end }}

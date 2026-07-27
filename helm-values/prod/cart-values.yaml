@@ -1,0 +1,65 @@
+service:
+  name: cart
+  environment: prod
+
+image:
+  repository: ""
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+
+replicaCount: 3
+
+resources:
+  requests:
+    cpu: 300m
+    memory: 512Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 8
+  targetCPUUtilizationPercentage: 60
+  targetMemoryUtilizationPercentage: 70
+
+rollout:
+  strategy: canary
+  trafficRouting:
+    istio:
+      enabled: true
+  steps:
+    - setWeight: 10
+    - pause:
+        duration: 10m
+    - setWeight: 25
+    - pause:
+        duration: 15m
+    - setWeight: 50
+    - pause:
+        duration: 15m
+    - setWeight: 100
+  analysis:
+    enabled: true
+
+observability:
+  metrics:
+    enabled: true
+  tracing:
+    enabled: true
+
+istio:
+  enabled: true
+  trafficRouting:
+    enabled: true
+  mtls:
+    enabled: true
+  authorizationPolicy:
+    enabled: true
+
+envFrom:
+  - secretRef:
+      name: astronomy-shop-runtime
+      optional: false

@@ -1,0 +1,46 @@
+service:
+  name: frontend
+  environment: staging
+
+image:
+  repository: ""
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 700m
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 65
+  targetMemoryUtilizationPercentage: 75
+
+rollout:
+  strategy: canary
+  steps:
+    - setWeight: 25
+    - pause:
+        duration: 5m
+    - setWeight: 50
+    - pause:
+        duration: 10m
+    - setWeight: 100
+
+observability:
+  metrics:
+    enabled: true
+  tracing:
+    enabled: true
+
+istio:
+  enabled: false

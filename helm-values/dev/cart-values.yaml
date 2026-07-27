@@ -1,0 +1,45 @@
+service:
+  name: cart
+  environment: dev
+
+image:
+  repository: ""
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 300m
+    memory: 256Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+rollout:
+  strategy: rollingUpdate
+  maxUnavailable: 0
+  maxSurge: 1
+
+observability:
+  metrics:
+    enabled: false
+  tracing:
+    enabled: false
+
+istio:
+  enabled: false
+
+envFrom:
+  - secretRef:
+      name: astronomy-shop-runtime
+      optional: false

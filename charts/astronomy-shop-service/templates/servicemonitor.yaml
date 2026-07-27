@@ -1,0 +1,19 @@
+{{- if .Values.observability.metrics.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "astronomy-shop-service.fullname" . }}
+  labels:
+    {{- include "astronomy-shop-service.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "astronomy-shop-service.selectorLabels" . | nindent 6 }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace | quote }}
+  endpoints:
+    - port: http
+      path: {{ .Values.observability.metrics.path | quote }}
+      interval: {{ .Values.observability.metrics.interval | quote }}
+{{- end }}

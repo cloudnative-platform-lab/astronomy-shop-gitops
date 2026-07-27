@@ -1,0 +1,25 @@
+{{- if and .Values.istio.enabled .Values.istio.authorizationPolicy.enabled }}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ include "astronomy-shop-service.fullname" . }}
+  labels:
+    {{- include "astronomy-shop-service.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "astronomy-shop-service.selectorLabels" . | nindent 6 }}
+  action: {{ .Values.istio.authorizationPolicy.action | default "ALLOW" }}
+  rules:
+    {{- if .Values.istio.authorizationPolicy.rules }}
+    {{- range .Values.istio.authorizationPolicy.rules }}
+    - from:
+        {{- toYaml .from | nindent 8 }}
+    {{- end }}
+    {{- else }}
+    - from:
+        - source:
+            namespaces:
+              - {{ .Release.Namespace | quote }}
+    {{- end }}
+{{- end }}

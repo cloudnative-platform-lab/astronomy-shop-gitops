@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: prod
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  description: Astronomy Shop prod workloads
+  sourceRepos:
+    - git@github.com:cloudnative-platform-lab/astronomy-shop-gitops.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: prod
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: Service
+    - group: apps
+      kind: Deployment
+    - group: autoscaling
+      kind: HorizontalPodAutoscaler
+    - group: networking.k8s.io
+      kind: Ingress
+    - group: networking.k8s.io
+      kind: NetworkPolicy
+    - group: argoproj.io
+      kind: Rollout
+    - group: argoproj.io
+      kind: AnalysisTemplate
+    - group: networking.istio.io
+      kind: VirtualService
+    - group: networking.istio.io
+      kind: DestinationRule
+    - group: security.istio.io
+      kind: PeerAuthentication
+    - group: security.istio.io
+      kind: AuthorizationPolicy
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor

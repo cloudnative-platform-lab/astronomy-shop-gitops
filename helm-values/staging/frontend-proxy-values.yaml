@@ -1,0 +1,91 @@
+service:
+  name: frontend-proxy
+  environment: staging
+  port: 8080
+  targetPort: 8080
+
+image:
+  repository: ""
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 600m
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 65
+  targetMemoryUtilizationPercentage: 75
+
+rollout:
+  strategy: canary
+  trafficRouting:
+    alb:
+      enabled: true
+      ingressName: frontend-proxy-ingress
+      servicePort: 8080
+    istio:
+      enabled: false
+  steps:
+    - setWeight: 25
+    - pause:
+        duration: 5m
+    - setWeight: 50
+    - pause:
+        duration: 10m
+    - setWeight: 100
+
+observability:
+  metrics:
+    enabled: true
+  tracing:
+    enabled: true
+
+istio:
+  enabled: true
+  trafficRouting:
+    enabled: false
+  mtls:
+    enabled: false
+  authorizationPolicy:
+    enabled: false
+
+networkPolicy:
+  enabled: true
+  ingress:
+    allowAllSources: true
+
+ingress:
+  # The platform Terraform stack owns the single public ALB and TLS listener.
+  enabled: true
+  className: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+  hosts:
+    - host: staging.astronomy-shop.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+env:
+  - name: FRONTEND_HOST
+    value: "frontend"
+  - name: FRONTEND_PORT
+    value: "8080"
+  - name: IMAGE_PROVIDER_HOST
+    value: "image-provider"
+  - name: IMAGE_PROVIDER_PORT
+    value: "8081"

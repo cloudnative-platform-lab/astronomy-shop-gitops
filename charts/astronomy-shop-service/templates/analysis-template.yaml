@@ -1,0 +1,23 @@
+{{- if and (eq .Values.rollout.strategy "canary") .Values.rollout.analysis.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: {{ include "astronomy-shop-service.fullname" . }}-availability
+  labels:
+    {{- include "astronomy-shop-service.labels" . | nindent 4 }}
+spec:
+  args:
+    - name: namespace
+    - name: service
+  metrics:
+    - name: prometheus-target-available
+      interval: 30s
+      count: 5
+      successCondition: len(result) > 0 && result[0] >= 1
+      failureLimit: 3
+      provider:
+        prometheus:
+          address: {{ .Values.rollout.analysis.prometheusAddress | quote }}
+          query: |
+            sum(up{namespace="{{`{{args.namespace}}`}}", service="{{`{{args.service}}`}}"})
+{{- end }}
