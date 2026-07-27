@@ -5,9 +5,9 @@ service:
   targetPort: 8080
 
 image:
-  repository: ""
-  tag: ""
-  digest: ""
+  repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/frontend-proxy"
+  tag: "cf0760c3c2fd0160b1fa1c5720c77665cc5197d7"
+  digest: "sha256:17089a9be1a82073f2f9841d80c408e3e12bc5cf41ab4b8296411ec87c5c4eab"
   pullPolicy: IfNotPresent
 
 replicaCount: 1
