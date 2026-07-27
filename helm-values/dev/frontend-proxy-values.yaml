@@ -12,6 +12,9 @@ image:
 
 replicaCount: 1
 
+podSecurityContext:
+  runAsNonRoot: false
+
 resources:
   requests:
     cpu: 100m
