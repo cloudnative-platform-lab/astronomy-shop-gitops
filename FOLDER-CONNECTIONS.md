@@ -70,8 +70,8 @@ helm-values/dev/frontend-proxy-values.yaml
   -> argocd/appsets/dev/services.yaml list generator item: frontend-proxy
   -> generated Argo Application: frontend-proxy-dev
   -> chart path: charts/astronomy-shop-service
-  -> Helm template creates Service and Deployment named frontend-proxy in namespace dev
-  -> Terraform ALB Ingress sends public application traffic to frontend-proxy:8080
+  -> Helm creates the frontend-proxy Service, stable/canary Services, Rollout, and the public ALB Ingress in namespace dev
+  -> AWS Load Balancer Controller reconciles that GitOps-managed Ingress and sends public traffic to frontend-proxy-stable:8080
   -> frontend-proxy uses values to reach frontend:8080 and image-provider:8081 internally
 ```
 
@@ -88,7 +88,7 @@ astronomy-shop-infrastructure
     -> installs Argo CD and controllers
     -> creates namespaces and service accounts
     -> creates the root Argo CD Application targeting argocd/appsets/<environment>
-    -> creates the Terraform-owned ALB Ingress targeting frontend-proxy:8080
+    -> installs the AWS Load Balancer Controller that reconciles the GitOps-managed ALB Ingress
 
 astronomy-shop-gitops
   Argo CD reconciliation
@@ -102,7 +102,7 @@ astronomy-shop-gitops
 1. Keep values-file names exactly `<service>-values.yaml`; application CI already uses this format.
 2. Keep `service.name` equal to the service name—not `<service>-dev` or `<service>-prod`.
 3. Put environment differences in namespaces and values files, not in service DNS names.
-4. Keep Helm ingress disabled. Terraform is the only owner of the internet-facing ALB Ingress.
+4. Enable Helm Ingress only for `frontend-proxy`; it is the sole internet-facing workload. Keep every backend Ingress disabled.
 5. Use image digests for deployments. Tags are helpful labels but not the deployment identity.
 6. Keep `astronomy-shop-runtime` as a required Secret for `cart` and `image-provider`; it is supplied by External Secrets from AWS Secrets Manager.
 7. Add database credentials only to the service that actually uses PostgreSQL after its source code confirms the required environment variable names.

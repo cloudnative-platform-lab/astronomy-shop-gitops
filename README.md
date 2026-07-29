@@ -35,7 +35,7 @@ astronomy-shop-app GitHub Actions
   -> ApplicationSet creates one Argo CD Application per service
   -> generated Application renders charts/astronomy-shop-service
   -> Helm combines values.yaml + the matching helm-values file
-  -> Kubernetes Deployment or Argo Rollout is reconciled in its environment namespace
+  -> Kubernetes Argo Rollout is reconciled in its environment namespace
 ```
 
 The chart uses the service name without an environment suffix. The namespace supplies environment isolation, so `frontend` resolves to `frontend.dev.svc.cluster.local` in dev and `frontend.prod.svc.cluster.local` in prod. This also keeps the Terraform-managed ALB target `frontend-proxy:8080` correct.
@@ -44,7 +44,9 @@ The chart uses the service name without an environment suffix. The namespace sup
 
 Terraform owns the EKS cluster, namespaces, service accounts, AWS Load Balancer Controller, External Secrets, Argo CD installation, root Application, and AWS resources.
 
-Argo CD owns the AppProjects, ApplicationSets, generated Applications, Helm-rendered workloads, HPA, NetworkPolicy, ServiceMonitor, and optional Argo Rollout/AnalysisTemplate objects.
+Argo CD owns the AppProjects, ApplicationSets, generated Applications, Helm-rendered Rollouts, Services, HPA, NetworkPolicy, ServiceMonitor, optional Istio resources, and the single frontend-proxy ALB Ingress.
+
+Terraform installs the AWS Load Balancer Controller; it does not create an application Ingress. The Helm chart renders the only public Ingress when `frontend-proxy` values enable it. Backend values keep Ingress disabled, so backend services remain internal.
 
 Application CI owns only immutable image fields in `helm-values/<environment>/<service>-values.yaml`. It must not modify Helm templates or unrelated environment settings automatically.
 
