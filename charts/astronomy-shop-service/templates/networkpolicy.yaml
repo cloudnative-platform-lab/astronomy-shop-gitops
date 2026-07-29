@@ -11,6 +11,9 @@ spec:
       {{- include "astronomy-shop-service.selectorLabels" . | nindent 6 }}
   policyTypes:
     - Ingress
+    {{- if .Values.networkPolicy.egress.enabled }}
+    - Egress
+    {{- end }}
   ingress:
     - ports:
         - protocol: TCP
@@ -25,4 +28,8 @@ spec:
               kubernetes.io/metadata.name: {{ .Release.Namespace | quote }}
         {{- end }}
       {{- end }}
+  {{- if .Values.networkPolicy.egress.enabled }}
+  egress:
+    {{- toYaml .Values.networkPolicy.egress.rules | nindent 4 }}
+  {{- end }}
 {{- end }}

@@ -7,8 +7,8 @@ metadata:
     {{- include "astronomy-shop-service.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    apiVersion: {{ ternary "argoproj.io/v1alpha1" "apps/v1" (eq .Values.rollout.strategy "canary") }}
-    kind: {{ ternary "Rollout" "Deployment" (eq .Values.rollout.strategy "canary") }}
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
     name: {{ include "astronomy-shop-service.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}

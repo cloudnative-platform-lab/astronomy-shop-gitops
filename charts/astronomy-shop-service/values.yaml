@@ -29,6 +29,29 @@ serviceAccount:
 
 podAnnotations: {}
 
+terminationGracePeriodSeconds: 30
+
+startupProbe:
+  enabled: true
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  failureThreshold: 30
+
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 1
+
+topologySpread:
+  enabled: true
+  maxSkew: 1
+  topologyKey: kubernetes.io/hostname
+  whenUnsatisfiable: ScheduleAnyway
+
+configMap:
+  enabled: false
+  data: {}
+  envFrom: false
+
 resources:
   requests:
     cpu: 100m
@@ -101,6 +124,9 @@ networkPolicy:
   ingress:
     allowAllSources: false
     from: []
+  egress:
+    enabled: false
+    rules: []
 
 env: []
 envFrom: []

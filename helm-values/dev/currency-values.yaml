@@ -28,7 +28,7 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 
 rollout:
-  strategy: rollingUpdate
+  strategy: canary
   maxUnavailable: 0
   maxSurge: 1
 

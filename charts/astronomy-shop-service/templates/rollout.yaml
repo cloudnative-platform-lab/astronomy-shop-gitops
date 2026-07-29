@@ -8,6 +8,8 @@ spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
     canary:
+      maxUnavailable: {{ .Values.rollout.maxUnavailable }}
+      maxSurge: {{ .Values.rollout.maxSurge }}
       {{- if not .Values.rollout.trafficRouting.istio.enabled }}
       stableService: {{ printf "%s-stable" (include "astronomy-shop-service.fullname" .) }}
       canaryService: {{ printf "%s-canary" (include "astronomy-shop-service.fullname" .) }}
@@ -23,7 +25,7 @@ spec:
           virtualServices:
             - name: {{ include "astronomy-shop-service.istio.virtualServiceName" . | quote }}
               routes:
-                {{- toYaml .Values.rollout.trafficRouting.istio.virtualService.routes | nindent 16 }}
+                {{- toYaml (default (list "primary") .Values.rollout.trafficRouting.istio.virtualService.routes) | nindent 16 }}
           destinationRule:
             name: {{ include "astronomy-shop-service.istio.destinationRuleName" . | quote }}
             canarySubsetName: canary
@@ -54,11 +56,21 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ default (include "astronomy-shop-service.name" .) .Values.serviceAccount.name | quote }}
+      {{- if .Values.topologySpread.enabled }}
+      topologySpreadConstraints:
+        - maxSkew: {{ .Values.topologySpread.maxSkew }}
+          topologyKey: {{ .Values.topologySpread.topologyKey | quote }}
+          whenUnsatisfiable: {{ .Values.topologySpread.whenUnsatisfiable }}
+          labelSelector:
+            matchLabels:
+              {{- include "astronomy-shop-service.selectorLabels" . | nindent 14 }}
+      {{- end }}
       containers:
         - name: {{ include "astronomy-shop-service.name" . }}
           image: {{ include "astronomy-shop-service.image" . | quote }}
@@ -73,6 +85,14 @@ spec:
           {{- with .Values.envFrom }}
           envFrom:
             {{- toYaml . | nindent 12 }}
+            {{- if .Values.configMap.envFrom }}
+            - configMapRef:
+                name: {{ include "astronomy-shop-service.fullname" . }}
+            {{- end }}
+          {{- else if .Values.configMap.envFrom }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "astronomy-shop-service.fullname" . }}
           {{- end }}
           env:
             - name: ENVIRONMENT
@@ -100,5 +120,13 @@ spec:
               port: http
             initialDelaySeconds: 30
             periodSeconds: 20
+          {{- if .Values.startupProbe.enabled }}
+          startupProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

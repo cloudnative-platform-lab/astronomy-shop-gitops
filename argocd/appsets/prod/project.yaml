@@ -14,11 +14,15 @@ spec:
       namespace: prod
   namespaceResourceWhitelist:
     - group: ""
+      kind: ConfigMap
+    - group: ""
       kind: Service
     - group: apps
       kind: Deployment
     - group: autoscaling
       kind: HorizontalPodAutoscaler
+    - group: policy
+      kind: PodDisruptionBudget
     - group: networking.k8s.io
       kind: Ingress
     - group: networking.k8s.io
@@ -37,3 +41,7 @@ spec:
       kind: AuthorizationPolicy
     - group: monitoring.coreos.com
       kind: ServiceMonitor
+    - group: monitoring.coreos.com
+      kind: PrometheusRule
+    - group: monitoring.coreos.com
+      kind: AlertmanagerConfig
