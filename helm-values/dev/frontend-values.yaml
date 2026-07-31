@@ -4,8 +4,8 @@ service:
 
 image:
   repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/frontend"
-  tag: "0392223a4f44e97deddc2b588a37586b8688f327"
-  digest: "sha256:c40987aec94bbed28e8c1fd9a9ad480100f95bedc5739d75362a98843d6beaff"
+  tag: "ed4f7762fd5381debc95f5e676f468c421eb664c"
+  digest: "sha256:53d7b51aa8ab41cd4a92251b3740ed82c3e297ac95007291b729be7196ad5452"
   pullPolicy: IfNotPresent
 
 replicaCount: 1
