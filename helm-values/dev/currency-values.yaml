@@ -5,9 +5,9 @@ service:
   targetPort: 7001
 
 image:
-  repository: ""
-  tag: ""
-  digest: ""
+  repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/currency"
+  tag: "7cec427a6dff62a645c40ebe33b433651e2262ea"
+  digest: "sha256:ad5769b9753fd82d0254434447188b8a1b7a08a27eb78bcd9529a0fd14e6fea9"
   pullPolicy: IfNotPresent
 
 replicaCount: 1
