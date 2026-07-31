@@ -3,9 +3,9 @@ service:
   environment: dev
 
 image:
-  repository: ""
-  tag: ""
-  digest: ""
+  repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/cart"
+  tag: "7cec427a6dff62a645c40ebe33b433651e2262ea"
+  digest: "sha256:9acc77533e09aaf8be13e996482c7b32e26921546a840cebea5a19fc64ff4ba3"
   pullPolicy: IfNotPresent
 
 replicaCount: 1
