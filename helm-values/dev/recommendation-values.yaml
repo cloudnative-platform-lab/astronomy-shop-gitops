@@ -1,6 +1,8 @@
 service:
   name: recommendation
   environment: dev
+  port: 1010
+  targetPort: 1010
 
 image:
   repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/recommendation"
@@ -38,3 +40,9 @@ observability:
 
 istio:
   enabled: false
+
+env:
+  - name: RECOMMENDATION_PORT
+    value: "1010"
+  - name: PRODUCT_CATALOG_ADDR
+    value: "product-catalog:3550"

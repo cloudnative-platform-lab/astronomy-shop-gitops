@@ -1,6 +1,8 @@
 service:
   name: recommendation
   environment: staging
+  port: 1010
+  targetPort: 1010
 
 image:
   repository: ""
@@ -47,6 +49,12 @@ observability:
 
 istio:
   enabled: true
+
+env:
+  - name: RECOMMENDATION_PORT
+    value: "1010"
+  - name: PRODUCT_CATALOG_ADDR
+    value: "product-catalog:3550"
   trafficRouting:
     enabled: true
   mtls:
