@@ -92,7 +92,7 @@ spec:
               containerPort: {{ .Values.service.targetPort }}
           {{- if .Values.envFrom }}
           envFrom:
-            {{- toYaml . | nindent 12 }}
+            {{- toYaml .Values.envFrom | nindent 12 }}
             {{- if .Values.configMap.envFrom }}
             - configMapRef:
                 name: {{ include "astronomy-shop-service.fullname" . }}
