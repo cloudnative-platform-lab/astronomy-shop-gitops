@@ -90,7 +90,7 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
-          {{- with .Values.envFrom }}
+          {{- if .Values.envFrom }}
           envFrom:
             {{- toYaml . | nindent 12 }}
             {{- if .Values.configMap.envFrom }}
