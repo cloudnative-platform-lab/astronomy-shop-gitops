@@ -54,6 +54,8 @@ istio:
   enabled: true
 
 env:
+  - name: OTEL_SERVICE_NAME
+    value: "recommendation"
   - name: RECOMMENDATION_PORT
     value: "1010"
   - name: PRODUCT_CATALOG_ADDR
