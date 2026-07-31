@@ -6,8 +6,8 @@ service:
 
 image:
   repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/currency"
-  tag: "ad311d672caa4401e5a3a7dc082729491772f66b"
-  digest: "sha256:feabcaa50a12eb45af26b6cbd39bf58b88f78d94342b72489bd7241710b4ce28"
+  tag: "3a3abed441e6755dfec6c4313993a104094f6728"
+  digest: "sha256:0c0b2ace14a0dbc07db564d71119e91d422b6c819c138d16df516fd56712bce4"
   pullPolicy: IfNotPresent
 
 replicaCount: 1
