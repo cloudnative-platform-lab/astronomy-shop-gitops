@@ -88,6 +88,16 @@ ingress:
           pathType: Prefix
 
 env:
+  - name: ENVOY_PORT
+    value: "8080"
+  - name: OTEL_SERVICE_NAME
+    value: "frontend-proxy"
+  - name: OTEL_COLLECTOR_HOST
+    value: "otel-collector"
+  - name: OTEL_COLLECTOR_PORT_GRPC
+    value: "4317"
+  - name: OTEL_COLLECTOR_PORT_HTTP
+    value: "4318"
   - name: FRONTEND_HOST
     value: "frontend"
   - name: FRONTEND_PORT
@@ -96,3 +106,23 @@ env:
     value: "image-provider"
   - name: IMAGE_PROVIDER_PORT
     value: "8081"
+  - name: FLAGD_HOST
+    value: "flagd"
+  - name: FLAGD_PORT
+    value: "8013"
+  - name: FLAGD_UI_HOST
+    value: "flagd-ui"
+  - name: FLAGD_UI_PORT
+    value: "4000"
+  - name: LOCUST_WEB_HOST
+    value: "load-generator"
+  - name: LOCUST_WEB_PORT
+    value: "8089"
+  - name: GRAFANA_HOST
+    value: "grafana"
+  - name: GRAFANA_PORT
+    value: "3000"
+  - name: JAEGER_HOST
+    value: "jaeger"
+  - name: JAEGER_PORT
+    value: "16686"
