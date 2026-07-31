@@ -5,9 +5,9 @@ service:
   targetPort: 8081
 
 image:
-  repository: ""
-  tag: ""
-  digest: ""
+  repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/image-provider"
+  tag: "e1acb3a2a76504e7b42cd3c3721fdde9caf83e22"
+  digest: "sha256:c239f22511eb21d29d361b57f1605529e927adfeb8cba044512b5d81b13464a9"
   pullPolicy: IfNotPresent
 
 replicaCount: 1
