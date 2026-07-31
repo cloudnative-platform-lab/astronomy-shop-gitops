@@ -1,6 +1,8 @@
 service:
   name: checkout
   environment: prod
+  port: 5050
+  targetPort: 5050
 
 image:
   repository: ""
@@ -50,6 +52,22 @@ observability:
 
 istio:
   enabled: true
+
+env:
+  - name: CHECKOUT_PORT
+    value: "5050"
+  - name: CART_ADDR
+    value: "cart:7070"
+  - name: CURRENCY_ADDR
+    value: "currency:7001"
+  - name: EMAIL_ADDR
+    value: "http://email:6060"
+  - name: PAYMENT_ADDR
+    value: "payment:50051"
+  - name: PRODUCT_CATALOG_ADDR
+    value: "product-catalog:3550"
+  - name: SHIPPING_ADDR
+    value: "http://shipping:50050"
   trafficRouting:
     enabled: true
   mtls:
