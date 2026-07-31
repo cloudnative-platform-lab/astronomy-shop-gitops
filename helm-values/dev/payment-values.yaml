@@ -1,6 +1,8 @@
 service:
   name: payment
   environment: dev
+  port: 50051
+  targetPort: 50051
 
 image:
   repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/payment"
@@ -38,3 +40,7 @@ observability:
 
 istio:
   enabled: false
+
+env:
+  - name: PAYMENT_PORT
+    value: "50051"

@@ -1,6 +1,8 @@
 service:
   name: product-catalog
   environment: dev
+  port: 3550
+  targetPort: 3550
 
 image:
   repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/product-catalog"
@@ -38,3 +40,7 @@ observability:
 
 istio:
   enabled: false
+
+env:
+  - name: PRODUCT_CATALOG_PORT
+    value: "3550"

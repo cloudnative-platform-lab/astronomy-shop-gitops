@@ -1,6 +1,8 @@
 service:
   name: product-catalog
   environment: prod
+  port: 3550
+  targetPort: 3550
 
 image:
   repository: ""
@@ -50,6 +52,10 @@ observability:
 
 istio:
   enabled: true
+
+env:
+  - name: PRODUCT_CATALOG_PORT
+    value: "3550"
   trafficRouting:
     enabled: true
   mtls:
