@@ -12,10 +12,13 @@ image:
 
 replicaCount: 1
 
-podSecurityContext:
-  runAsNonRoot: false
-securityContext:
-  readOnlyRootFilesystem: false
+extraVolumes:
+  - name: envoy-runtime
+    emptyDir: {}
+
+extraVolumeMounts:
+  - name: envoy-runtime
+    mountPath: /tmp
 
 resources:
   requests:
