@@ -1,0 +1,51 @@
+# Rename this file to services-with-checkout-dependencies.yaml only after the
+# email and shipping image fields have been populated by their CI workflows.
+# Then remove the matching entries from services.yaml and commit both changes.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: astronomy-shop-dev-checkout-dependencies
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - service: email
+          - service: shipping
+  template:
+    metadata:
+      name: "{{service}}-dev"
+      labels:
+        app.kubernetes.io/part-of: astronomy-shop
+        service: "{{service}}"
+        environment: dev
+    spec:
+      project: dev
+      source:
+        repoURL: git@github.com:cloudnative-platform-lab/astronomy-shop-gitops.git
+        targetRevision: main
+        path: charts/astronomy-shop-service
+        helm:
+          valueFiles:
+            - ../../helm-values/dev/{{service}}-values.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: dev
+      ignoreDifferences:
+        - group: argoproj.io
+          kind: Rollout
+          jsonPointers:
+            - /spec/replicas
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - PruneLast=true
+          - RespectIgnoreDifferences=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
