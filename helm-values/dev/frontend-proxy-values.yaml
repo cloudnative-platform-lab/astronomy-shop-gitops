@@ -81,6 +81,7 @@ ingress:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/healthcheck-path: /
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/load-balancer-attributes: access_logs.s3.enabled=true,access_logs.s3.bucket=astronomy-shop-dev-241766333730-alb-logs,access_logs.s3.prefix=dev
   hosts:
     - host: dev.astronomy-shop.store
       paths:
