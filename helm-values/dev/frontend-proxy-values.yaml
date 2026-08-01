@@ -82,7 +82,7 @@ ingress:
     alb.ingress.kubernetes.io/healthcheck-path: /
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
   hosts:
-    - host: dev.astronomy-shop.example.com
+    - host: dev.astronomy-shop.store
       paths:
         - path: /
           pathType: Prefix
