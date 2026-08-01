@@ -50,3 +50,5 @@ env:
     value: "product-catalog:3550"
   - name: RECOMMENDATION_ADDR
     value: "recommendation:1010"
+  - name: SHIPPING_ADDR
+    value: "shipping:50051"

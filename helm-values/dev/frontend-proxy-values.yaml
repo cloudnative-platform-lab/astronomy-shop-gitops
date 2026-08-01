@@ -94,7 +94,7 @@ env:
   - name: OTEL_SERVICE_NAME
     value: "frontend-proxy"
   - name: OTEL_COLLECTOR_HOST
-    value: "otel-collector"
+    value: "opentelemetry-collector.observability.svc.cluster.local"
   - name: OTEL_COLLECTOR_PORT_GRPC
     value: "4317"
   - name: OTEL_COLLECTOR_PORT_HTTP
