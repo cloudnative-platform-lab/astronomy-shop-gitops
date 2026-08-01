@@ -47,3 +47,15 @@ observability:
 
 istio:
   enabled: false
+
+env:
+  - name: CART_ADDR
+    value: "cart:8080"
+  - name: CHECKOUT_ADDR
+    value: "checkout:5050"
+  - name: CURRENCY_ADDR
+    value: "currency:7001"
+  - name: PRODUCT_CATALOG_ADDR
+    value: "product-catalog:3550"
+  - name: RECOMMENDATION_ADDR
+    value: "recommendation:1010"
