@@ -70,6 +70,7 @@ istio:
 networkPolicy:
   enabled: true
   ingress:
+  externalDnsTarget: "daqiulquf02ce.cloudfront.net"
     allowAllSources: true
 
 ingress:
