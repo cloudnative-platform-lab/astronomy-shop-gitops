@@ -6,8 +6,8 @@ service:
 
 image:
   repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/email"
-  tag: ""
-  digest: ""
+  tag: "8ca520da1e5b850ef3243cb00c267c7814ac8266"
+  digest: "sha256:61e9cde5407b5e1214a9e8cd7f9bd1c0c4402d1a9b3dfa1cafe188034e6a4137"
   pullPolicy: IfNotPresent
 
 replicaCount: 1
