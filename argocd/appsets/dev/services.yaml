@@ -12,8 +12,10 @@ spec:
           - service: frontend-proxy
           - service: frontend
           - service: recommendation
+          - service: email
           - service: cart
           - service: checkout
+          - service: shipping
           - service: product-catalog
           - service: payment
           - service: currency
