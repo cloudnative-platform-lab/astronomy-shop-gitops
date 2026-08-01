@@ -6,8 +6,8 @@ service:
 
 image:
   repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/shipping"
-  tag: "472a04063c30ddf9bdcc3018eaee2c6157884239"
-  digest: "sha256:b357da069f6064bbce59fe836b2e78f7ffea21c46105a9e9025b63a81663582d"
+  tag: "8ca520da1e5b850ef3243cb00c267c7814ac8266"
+  digest: "sha256:bd1ca1d509871fadee49a481914da64b09e69bc4a74a8a7a1a4eb67d9c7815f1"
   pullPolicy: IfNotPresent
 
 replicaCount: 1
