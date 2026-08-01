@@ -113,6 +113,7 @@ observability:
     protocol: grpc
 
 ingress:
+  externalDnsTarget: ""
   enabled: false
   className: ""
   annotations: {}

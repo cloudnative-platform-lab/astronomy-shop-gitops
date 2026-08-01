@@ -82,10 +82,14 @@ ingress:
     alb.ingress.kubernetes.io/healthcheck-path: /
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
     alb.ingress.kubernetes.io/ssl-redirect: "443"
-    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-south-1:241766333730:certificate/f039d421-7fd6-4f51-8fe7-99bcf3f2f07b"
+    alb.ingress.kubernetes.io/certificate-arn: ""
     alb.ingress.kubernetes.io/load-balancer-attributes: access_logs.s3.enabled=true,access_logs.s3.bucket=astronomy-shop-dev-241766333730-alb-logs,access_logs.s3.prefix=dev
   hosts:
     - host: dev.astronomy-shop.store
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: origin.dev.astronomy-shop.store
       paths:
         - path: /
           pathType: Prefix
