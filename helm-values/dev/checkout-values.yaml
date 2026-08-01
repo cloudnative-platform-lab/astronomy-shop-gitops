@@ -49,10 +49,10 @@ env:
   - name: CURRENCY_ADDR
     value: "currency:7001"
   - name: EMAIL_ADDR
-    value: "http://email:6060"
+    value: "email:8080"
   - name: PAYMENT_ADDR
     value: "payment:50051"
   - name: PRODUCT_CATALOG_ADDR
     value: "product-catalog:3550"
   - name: SHIPPING_ADDR
-    value: "http://shipping:50050"
+    value: "shipping:50051"
