@@ -3,9 +3,9 @@ service:
   environment: staging
 
 image:
-  repository: ""
-  tag: ""
-  digest: ""
+  repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/cart"
+  tag: "88abe4e9c1e3c3e9849d14b5e9601d72bf872fd4"
+  digest: "sha256:ef5dee3372341fe78833cfbf716c59efe621a1a34d907fd82782ca573cbf0792"
   pullPolicy: IfNotPresent
 
 replicaCount: 2
