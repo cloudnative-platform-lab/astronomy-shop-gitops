@@ -1,5 +1,5 @@
 service:
-  name: payment
+  name: shipping
   environment: staging
   port: 50051
   targetPort: 50051
@@ -14,11 +14,11 @@ replicaCount: 2
 
 resources:
   requests:
-    cpu: 200m
-    memory: 256Mi
+    cpu: 100m
+    memory: 128Mi
   limits:
-    cpu: 600m
-    memory: 512Mi
+    cpu: 300m
+    memory: 256Mi
 
 autoscaling:
   enabled: true
@@ -29,17 +29,6 @@ autoscaling:
 
 rollout:
   strategy: canary
-  trafficRouting:
-    istio:
-      enabled: false
-  steps:
-    - setWeight: 25
-    - pause:
-        duration: 5m
-    - setWeight: 50
-    - pause:
-        duration: 10m
-    - setWeight: 100
 
 observability:
   metrics:
@@ -49,13 +38,7 @@ observability:
 
 istio:
   enabled: false
-  trafficRouting:
-    enabled: false
-  mtls:
-    enabled: false
-  authorizationPolicy:
-    enabled: false
 
 env:
-  - name: PAYMENT_PORT
+  - name: SHIPPING_PORT
     value: "50051"

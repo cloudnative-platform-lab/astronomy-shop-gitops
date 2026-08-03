@@ -31,7 +31,7 @@ rollout:
   strategy: canary
   trafficRouting:
     istio:
-      enabled: true
+      enabled: false
   steps:
     - setWeight: 25
     - pause:
@@ -48,7 +48,13 @@ observability:
     enabled: true
 
 istio:
-  enabled: true
+  enabled: false
+  trafficRouting:
+    enabled: false
+  mtls:
+    enabled: false
+  authorizationPolicy:
+    enabled: false
 
 env:
   - name: CHECKOUT_PORT
@@ -65,9 +71,3 @@ env:
     value: "product-catalog:3550"
   - name: SHIPPING_ADDR
     value: "http://shipping:50050"
-  trafficRouting:
-    enabled: true
-  mtls:
-    enabled: true
-  authorizationPolicy:
-    enabled: true

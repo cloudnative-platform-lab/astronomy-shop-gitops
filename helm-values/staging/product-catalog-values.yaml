@@ -31,7 +31,7 @@ rollout:
   strategy: canary
   trafficRouting:
     istio:
-      enabled: true
+      enabled: false
   steps:
     - setWeight: 25
     - pause:
@@ -48,14 +48,14 @@ observability:
     enabled: true
 
 istio:
-  enabled: true
+  enabled: false
+  trafficRouting:
+    enabled: false
+  mtls:
+    enabled: false
+  authorizationPolicy:
+    enabled: false
 
 env:
   - name: PRODUCT_CATALOG_PORT
     value: "3550"
-  trafficRouting:
-    enabled: true
-  mtls:
-    enabled: true
-  authorizationPolicy:
-    enabled: true

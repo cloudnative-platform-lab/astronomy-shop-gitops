@@ -31,7 +31,7 @@ rollout:
   strategy: canary
   trafficRouting:
     istio:
-      enabled: true
+      enabled: false
   steps:
     - setWeight: 25
     - pause:
@@ -48,13 +48,13 @@ observability:
     enabled: true
 
 istio:
-  enabled: true
+  enabled: false
   trafficRouting:
-    enabled: true
+    enabled: false
   mtls:
-    enabled: true
+    enabled: false
   authorizationPolicy:
-    enabled: true
+    enabled: false
 
 env:
   - name: CURRENCY_PORT

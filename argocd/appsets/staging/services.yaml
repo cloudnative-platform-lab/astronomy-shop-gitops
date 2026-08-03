@@ -18,6 +18,8 @@ spec:
           - service: payment
           - service: currency
           - service: image-provider
+          - service: email
+          - service: shipping
   template:
     metadata:
       name: "{{service}}-staging"
