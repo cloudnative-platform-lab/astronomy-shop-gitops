@@ -12,6 +12,13 @@ image:
 
 replicaCount: 2
 
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false
+
 resources:
   requests:
     cpu: 200m
