@@ -5,9 +5,9 @@ service:
   targetPort: 50051
 
 image:
-  repository: ""
-  tag: ""
-  digest: ""
+  repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/shipping"
+  tag: "69e9bf247c45cad3c266d86ee8c458435f8e0350"
+  digest: "sha256:1ddddc93e279f0989a74baaa49fb15c327770cd1ac0694f054f183f5ec135871"
   pullPolicy: IfNotPresent
 
 replicaCount: 2
