@@ -5,9 +5,9 @@ service:
   targetPort: 8080
 
 image:
-  repository: ""
-  tag: ""
-  digest: ""
+  repository: "241766333730.dkr.ecr.ap-south-1.amazonaws.com/astronomy-shop/email"
+  tag: "69e9bf247c45cad3c266d86ee8c458435f8e0350"
+  digest: "sha256:f95089ef06422576a7e998e03cb6fa5b5082a68e1ebc9b26f9b6120566484c0b"
   pullPolicy: IfNotPresent
 
 replicaCount: 2
