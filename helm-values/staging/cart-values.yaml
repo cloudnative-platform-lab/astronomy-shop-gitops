@@ -10,6 +10,9 @@ image:
 
 replicaCount: 2
 
+podAnnotations:
+  astronomy-shop.io/canary-analysis-retry: "v2"
+
 resources:
   requests:
     cpu: 200m

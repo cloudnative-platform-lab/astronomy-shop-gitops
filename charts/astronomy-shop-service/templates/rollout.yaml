@@ -43,7 +43,10 @@ spec:
             value: {{ .Release.Namespace | quote }}
           - name: service
             value: {{ include "astronomy-shop-service.fullname" . | quote }}
-      {{- end }}
+          - name: latest-hash
+            valueFrom:
+              podTemplateHashValue: Latest
+{{- end }}
   selector:
     matchLabels:
       {{- include "astronomy-shop-service.selectorLabels" . | nindent 6 }}

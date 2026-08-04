@@ -9,8 +9,9 @@ spec:
   args:
     - name: namespace
     - name: service
+    - name: latest-hash
   metrics:
-    - name: prometheus-target-available
+    - name: canary-ready-pods
       interval: 30s
       count: 5
       successCondition: len(result) > 0 && result[0] >= 1
@@ -19,5 +20,9 @@ spec:
         prometheus:
           address: {{ .Values.rollout.analysis.prometheusAddress | quote }}
           query: |
-            sum(up{namespace="{{`{{args.namespace}}`}}", service="{{`{{args.service}}`}}"})
+            sum(
+              kube_pod_status_ready{namespace="{{`{{args.namespace}}`}}", condition="true"}
+              * on(namespace, pod) group_left()
+              kube_pod_labels{namespace="{{`{{args.namespace}}`}}", label_rollouts_argoproj_io_pod_template_hash="{{`{{args.latest-hash}}`}}"}
+            )
 {{- end }}
