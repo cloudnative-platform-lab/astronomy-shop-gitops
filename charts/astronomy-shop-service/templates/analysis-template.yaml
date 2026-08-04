@@ -23,6 +23,6 @@ spec:
             sum(
               kube_pod_status_ready{namespace="{{`{{args.namespace}}`}}", condition="true"}
               * on(namespace, pod) group_left()
-              kube_pod_labels{namespace="{{`{{args.namespace}}`}}", label_rollouts_argoproj_io_pod_template_hash="{{`{{args.latest-hash}}`}}"}
+              kube_pod_owner{namespace="{{`{{args.namespace}}`}}", owner_kind="ReplicaSet", owner_name="{{`{{args.service}}`}}-{{`{{args.latest-hash}}`}}"}
             )
 {{- end }}

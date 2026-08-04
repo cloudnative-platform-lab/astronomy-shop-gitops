@@ -11,7 +11,7 @@ image:
 replicaCount: 2
 
 podAnnotations:
-  astronomy-shop.io/canary-analysis-retry: "v2"
+  astronomy-shop.io/canary-analysis-retry: "v3"
 
 resources:
   requests:
