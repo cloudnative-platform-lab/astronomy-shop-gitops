@@ -16,9 +16,6 @@ podAnnotations:
   sidecar.istio.io/inject: "true"
   platform.astronomy-shop/mesh-validation: "enabled"
 
-podAnnotations:
-  sidecar.istio.io/inject: "true"
-
 resources:
   requests:
     cpu: 200m
