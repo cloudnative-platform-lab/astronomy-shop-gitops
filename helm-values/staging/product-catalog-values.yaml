@@ -12,6 +12,9 @@ image:
 
 replicaCount: 2
 
+podAnnotations:
+  platform.astronomy-shop/mesh-validation: "staging-cni-verified"
+
 resources:
   requests:
     cpu: 200m
