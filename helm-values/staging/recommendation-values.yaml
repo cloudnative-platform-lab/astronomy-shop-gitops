@@ -12,6 +12,9 @@ image:
 
 replicaCount: 2
 
+podAnnotations:
+  sidecar.istio.io/inject: "true"
+
 resources:
   requests:
     cpu: 200m
