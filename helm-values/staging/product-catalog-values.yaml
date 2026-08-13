@@ -2,6 +2,7 @@ service:
   name: product-catalog
   environment: staging
   port: 3550
+  portName: grpc
   targetPort: 3550
 
 image:
