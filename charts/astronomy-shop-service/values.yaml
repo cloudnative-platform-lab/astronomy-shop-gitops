@@ -88,7 +88,13 @@ rollout:
         name: ""
   analysis:
     enabled: false
+    startingStep: 1
     prometheusAddress: http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090
+    canaryReadyPods:
+      interval: 30s
+      count: 5
+      successCondition: "len(result) > 0 && result[0] >= 1"
+      failureLimit: 3
 
 istio:
   enabled: false

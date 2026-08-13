@@ -10,6 +10,10 @@ image:
 
 replicaCount: 2
 
+podAnnotations:
+  sidecar.istio.io/inject: "true"
+  platform.astronomy-shop/mesh-validation: "recommendation-caller"
+
 resources:
   requests:
     cpu: 250m
@@ -43,7 +47,7 @@ observability:
     enabled: true
 
 istio:
-  enabled: false
+  enabled: true
 
 env:
   - name: CART_ADDR
@@ -56,3 +60,5 @@ env:
     value: "product-catalog:3550"
   - name: RECOMMENDATION_ADDR
     value: "recommendation:1010"
+  - name: EXPOSE_RECOMMENDATION_REVISION_HEADERS
+    value: "true"

@@ -35,7 +35,7 @@ spec:
         {{- toYaml .Values.rollout.steps | nindent 8 }}
       {{- if .Values.rollout.analysis.enabled }}
       analysis:
-        startingStep: 1
+        startingStep: {{ .Values.rollout.analysis.startingStep }}
         templates:
           - templateName: {{ include "astronomy-shop-service.fullname" . }}-availability
         args:

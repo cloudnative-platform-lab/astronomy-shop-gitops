@@ -12,10 +12,10 @@ spec:
     - name: latest-hash
   metrics:
     - name: canary-ready-pods
-      interval: 30s
-      count: 5
-      successCondition: len(result) > 0 && result[0] >= 1
-      failureLimit: 3
+      interval: {{ .Values.rollout.analysis.canaryReadyPods.interval }}
+      count: {{ .Values.rollout.analysis.canaryReadyPods.count }}
+      successCondition: {{ .Values.rollout.analysis.canaryReadyPods.successCondition | quote }}
+      failureLimit: {{ .Values.rollout.analysis.canaryReadyPods.failureLimit }}
       provider:
         prometheus:
           address: {{ .Values.rollout.analysis.prometheusAddress | quote }}

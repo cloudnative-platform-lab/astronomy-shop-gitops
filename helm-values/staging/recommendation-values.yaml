@@ -15,6 +15,7 @@ replicaCount: 2
 podAnnotations:
   sidecar.istio.io/inject: "true"
   platform.astronomy-shop/mesh-validation: "staging-cni-verified"
+  astronomy-shop.io/canary-validation: "v1"
 
 resources:
   requests:
@@ -35,7 +36,7 @@ rollout:
   strategy: canary
   trafficRouting:
     istio:
-      enabled: false
+      enabled: true
   steps:
     - setWeight: 25
     - pause:
@@ -44,6 +45,8 @@ rollout:
     - pause:
         duration: 10m
     - setWeight: 100
+  analysis:
+    enabled: true
 
 observability:
   metrics:
@@ -52,15 +55,19 @@ observability:
     enabled: true
 
 istio:
-  enabled: false
+  enabled: true
   trafficRouting:
-    enabled: false
+    enabled: true
   mtls:
     enabled: false
   authorizationPolicy:
     enabled: false
 
 env:
+  - name: ASTRONOMY_SHOP_SERVING_REVISION
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.labels['rollouts-pod-template-hash']
   - name: RECOMMENDATION_PORT
     value: "1010"
   - name: PRODUCT_CATALOG_ADDR
