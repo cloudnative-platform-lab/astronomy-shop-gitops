@@ -16,7 +16,7 @@ replicaCount: 2
 podAnnotations:
   sidecar.istio.io/inject: "true"
   platform.astronomy-shop/mesh-validation: "staging-routing-validation-v2"
-  astronomy-shop.io/canary-validation: "traffic-25pct-proof-v1"
+  astronomy-shop.io/canary-validation: "routing-recovery-v1"
 
 resources:
   requests:
@@ -37,7 +37,7 @@ rollout:
   strategy: canary
   trafficRouting:
     istio:
-      enabled: true
+      enabled: false
   steps:
     - setWeight: 25
     - pause:
@@ -58,7 +58,7 @@ observability:
 istio:
   enabled: true
   trafficRouting:
-    enabled: true
+    enabled: false
   mtls:
     enabled: false
   authorizationPolicy:
