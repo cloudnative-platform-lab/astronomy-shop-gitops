@@ -2,6 +2,7 @@ service:
   name: recommendation
   environment: staging
   port: 1010
+  portName: grpc
   targetPort: 1010
 
 image:
