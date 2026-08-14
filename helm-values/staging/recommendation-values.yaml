@@ -59,6 +59,8 @@ istio:
     enabled: false
 
 env:
+  - name: FEATURE_FLAGS_ENABLED
+    value: "false"
   - name: ASTRONOMY_SHOP_SERVING_REVISION
     valueFrom:
       fieldRef:
