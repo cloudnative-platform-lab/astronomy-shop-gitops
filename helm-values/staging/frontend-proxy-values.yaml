@@ -12,6 +12,9 @@ image:
 
 replicaCount: 2
 
+podAnnotations:
+  sidecar.istio.io/inject: "false"
+
 securityContext:
   allowPrivilegeEscalation: false
   capabilities:
