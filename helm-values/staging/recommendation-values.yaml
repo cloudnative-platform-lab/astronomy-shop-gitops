@@ -14,7 +14,7 @@ image:
 replicaCount: 2
 
 podAnnotations:
-  sidecar.istio.io/inject: "false"
+  sidecar.istio.io/inject: "true"
   platform.astronomy-shop/mesh-validation: "staging-routing-validation-v2"
   astronomy-shop.io/canary-validation: "routing-recovery-v1"
 
