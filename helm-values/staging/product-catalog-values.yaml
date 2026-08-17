@@ -38,12 +38,6 @@ rollout:
     istio:
       enabled: false
   steps:
-    - setWeight: 25
-    - pause:
-        duration: 5m
-    - setWeight: 50
-    - pause:
-        duration: 10m
     - setWeight: 100
 
 observability:
