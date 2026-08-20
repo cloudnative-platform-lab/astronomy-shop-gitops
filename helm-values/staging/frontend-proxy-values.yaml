@@ -96,7 +96,7 @@ env:
   - name: ENVOY_PORT
     value: "8080"
   - name: OTEL_COLLECTOR_HOST
-    value: "opentelemetry-collector.observability.svc.cluster.local"
+    value: "otel-collector"
   - name: OTEL_COLLECTOR_PORT_GRPC
     value: "4317"
   - name: OTEL_COLLECTOR_PORT_HTTP
