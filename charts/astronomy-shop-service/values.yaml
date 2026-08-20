@@ -112,6 +112,8 @@ istio:
 observability:
   metrics:
     enabled: false
+    serviceMonitor:
+      enabled: false
     path: /metrics
     interval: 30s
   tracing:
