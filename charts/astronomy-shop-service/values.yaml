@@ -1,6 +1,7 @@
 service:
   name: ""
   environment: ""
+  portName: http
   port: 8080
   portName: http
   targetPort: 8080
